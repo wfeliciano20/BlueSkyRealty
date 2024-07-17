@@ -1,6 +1,12 @@
 ﻿@page
 
 @model MyApp.Namespace.IndexModel
+
+<head>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+
+
 <h2>List of Homes</h2>
 
 @if (Model.Homes != null && Model.Homes.Count > 0)
@@ -16,7 +22,7 @@
         <tbody>
             @foreach (var home in Model.Homes)
             {
-                <tr>
+                <tr class="@(home.Price > Model.ThresholdPrice ? "expensive-home" : "")">
                     <td>@home.Price.ToString("C")</td>
                     <td>@home.Address</td>
                     <td>@home.Area</td>
@@ -27,5 +33,5 @@
 }
 else
 {
-    <p>No homes available.</p>
+    <p class="empty-list">No homes available.</p>
 }

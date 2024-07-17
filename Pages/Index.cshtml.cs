@@ -6,6 +6,7 @@ namespace MyApp.Namespace
     public class IndexModel : PageModel
     {
         public List<Home> Homes { get; private set; }
+        public decimal ThresholdPrice { get; set; }
 
         public void OnGet()
         {
@@ -24,6 +25,7 @@ namespace MyApp.Namespace
                 new Home { Price = 310000, Address = "808 Willow St", Area = 135 },
                 new Home { Price = 440000, Address = "909 Redwood St", Area = 158 }
             };
+            ThresholdPrice = 400000;
         }
     }
 }
