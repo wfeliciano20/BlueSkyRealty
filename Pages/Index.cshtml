@@ -3,13 +3,13 @@
 @model AspNETcore.BSR.Pages.IndexModel
 
 
-<a asp-page="/AddHome">Add Home</a> 
+<a class="btn btn-success mt-3 mb-3" asp-page="/AddHome">Add Home</a> 
 
 <h2>List of Homes</h2>
 
 @if (Model.Homes != null && Model.Homes.Count > 0)
 {
-    <table>
+    <table class="table">
         <thead>
             <tr>
                 <th>Price</th>
@@ -26,7 +26,7 @@
                     <td>@home.Address</td>
                     <td>@home.Area</td>
                     <td>
-                        <a asp-page="/HomeDetail" asp-route-id="@home.Id">View Details</a>
+                        <a asp-page="/HomeDetail" class="btn btn-primary" asp-route-id="@home.Id">View Details</a>
                     </td>
                 </tr>
             }
