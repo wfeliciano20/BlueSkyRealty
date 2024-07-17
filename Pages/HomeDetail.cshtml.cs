@@ -5,26 +5,27 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace AspNETcore.BSR.Pages
 {
-    public class AddHomeModel : PageModel
+    public class HomeDetailModel : PageModel
     {
         private readonly HomeService _homeService;
 
-        public AddHomeModel(HomeService homeService)
+        public HomeDetailModel(HomeService homeService)
         {
             _homeService = homeService;
         }
 
-        [BindProperty]
-        public Home NewHome { get; set; }
+        public Home Home { get; set; }
 
-        public void OnGet()
+        public IActionResult OnGet(int id)
         {
+            Home = GetHomeById(id);
+
+            return Page();
         }
 
-        public IActionResult OnPost()
+        private Home GetHomeById(int id)
         {
-            _homeService.AddHome(NewHome);
-            return RedirectToPage("Index");
+            return _homeService.GetHomeById(id);
         }
     }
 }

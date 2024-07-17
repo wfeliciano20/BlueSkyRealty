@@ -2,7 +2,7 @@ using AspNETcore.BSR.Models;
 using AspNETcore.BSR.Services;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace MyApp.Namespace
+namespace AspNETcore.BSR.Pages
 {
     public class IndexModel : PageModel
     {
