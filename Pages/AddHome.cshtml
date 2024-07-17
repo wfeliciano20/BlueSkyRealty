@@ -5,6 +5,7 @@
 <h2>Add a New Home</h2>
 
 <form method="post">
+    <div asp-validation-summary="All" class="text-danger"></div> 
     <div>
         <label>Price</label>
         <input asp-for="NewHome.Price" />

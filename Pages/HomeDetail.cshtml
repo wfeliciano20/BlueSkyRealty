@@ -2,19 +2,21 @@
 @model AspNETcore.BSR.Pages.HomeDetailModel
 
 <h2>Update Home Details</h2>
-
-<form method="post" asp-page-handler="Update">
+<form method="post" asp-page-handler="Update" id="updateHomeForm">
     <div>
         <label asp-for="Home.Price"></label>
-        <input asp-for="Home.Price" class="form-control" />
+        <input asp-for="Home.Price"/>
+        <span asp-validation-for="Home.Price"></span>
     </div>
-    <div>
+    <div class="form-group">
         <label asp-for="Home.Address"></label>
-        <input asp-for="Home.Address" class="form-control" />
+        <input asp-for="Home.Address" />
+        <span asp-validation-for="Home.Address"></span>
     </div>
-    <div>
+    <div class="form-group">
         <label asp-for="Home.Area"></label>
-        <input asp-for="Home.Area" class="form-control" />
+        <input asp-for="Home.Area"/>
+        <span asp-validation-for="Home.Area"></span>
     </div>
     <input asp-for="Home.Id" type="hidden" />
     <button type="submit">Save Changes</button>

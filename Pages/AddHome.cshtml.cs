@@ -23,6 +23,11 @@ namespace AspNETcore.BSR.Pages
 
         public IActionResult OnPost()
         {
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
             _homeService.AddHome(NewHome);
             return RedirectToPage("Index");
         }
