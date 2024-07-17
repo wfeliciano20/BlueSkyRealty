@@ -41,6 +41,15 @@ public class HomeService
         _homes.Add(home);
     }
 
+    public void UpdateHome(Home updatedHome)
+    {
+        var home = _homes.FirstOrDefault(h => h.Id == updatedHome.Id);
+
+        home.Price = updatedHome.Price;
+        home.Address = updatedHome.Address;
+        home.Area = updatedHome.Area;
+    }
+
     public void DeleteHome(int id)
     {
         var home = _homes.FirstOrDefault(h => h.Id == id);

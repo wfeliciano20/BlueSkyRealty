@@ -14,6 +14,7 @@ namespace AspNETcore.BSR.Pages
             _homeService = homeService;
         }
 
+        [BindProperty]
         public Home Home { get; set; }
 
         public IActionResult OnGet(int id)
@@ -28,11 +29,19 @@ namespace AspNETcore.BSR.Pages
             return _homeService.GetHomeById(id);
         }
 
-        public IActionResult OnPost(int id)
+        public IActionResult OnPostUpdate()
+        {
+            _homeService.UpdateHome(Home);
+
+            return RedirectToPage("/Index");
+        }
+
+        public IActionResult OnPostDelete(int id)
         {
             _homeService.DeleteHome(id);
 
             return new OkResult();
         }
     }
+
 }

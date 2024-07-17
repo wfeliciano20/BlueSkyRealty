@@ -1,20 +1,24 @@
-﻿@page "{id:int}"
+﻿@page 
 @model AspNETcore.BSR.Pages.HomeDetailModel
 
-<h2>Home Details</h2>
+<h2>Update Home Details</h2>
 
-<div>
-    <label>Price:</label>
-    <span>@Model.Home.Price</span>
-</div>
-<div>
-    <label>Address:</label>
-    <span>@Model.Home.Address</span>
-</div>
-<div>
-    <label>Square Meters:</label>
-    <span>@Model.Home.Area</span>
-</div>
+<form method="post" asp-page-handler="Update">
+    <div>
+        <label asp-for="Home.Price"></label>
+        <input asp-for="Home.Price" class="form-control" />
+    </div>
+    <div>
+        <label asp-for="Home.Address"></label>
+        <input asp-for="Home.Address" class="form-control" />
+    </div>
+    <div>
+        <label asp-for="Home.Area"></label>
+        <input asp-for="Home.Area" class="form-control" />
+    </div>
+    <input asp-for="Home.Id" type="hidden" />
+    <button type="submit">Save Changes</button>
+</form>
 
 <button type="button" onclick="showConfirmation()">Delete</button>
 
@@ -23,6 +27,5 @@
     <button onclick="deleteHome(@Model.Home.Id)">Confirm Delete</button>
     <button onclick="closeConfirmation()">Cancel</button>
 </div>
-
 
 <a asp-page="/Index">Back to Home List</a>
