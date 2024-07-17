@@ -27,5 +27,12 @@ namespace AspNETcore.BSR.Pages
         {
             return _homeService.GetHomeById(id);
         }
+
+        public IActionResult OnPost(int id)
+        {
+            _homeService.DeleteHome(id);
+
+            return new OkResult();
+        }
     }
 }
