@@ -1,6 +1,8 @@
 ﻿@page
+@using AspNETcore.BSR.Models
 
-@model AspNETcore.BSR.Pages.IndexModel
+
+@model HomesViewModel
 <div>
     @if (TempData["SuccessMessage"] != null)
     {
@@ -11,8 +13,9 @@
 
     @if (TempData["ErrorMessage"] != null)
     {
-        <div class="alert alert-danger mt-3" role="alert">
-            @TempData["ErrorMessage"]
+        <div>
+        #line default
+        @TempData["ErrorMessage"]
         </div>
     }
 

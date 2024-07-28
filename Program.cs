@@ -12,6 +12,7 @@ builder.Services.AddRazorPages(options =>
     options.Conventions.ConfigureFilter(new IgnoreAntiforgeryTokenAttribute());
 });
 builder.Services.AddScoped<HomeService>();
+builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
@@ -24,6 +25,8 @@ using (var scope = app.Services.CreateScope())
 
 app.UseStaticFiles();
 
-app.MapRazorPages();
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Homes}/{action=Index}");
 
 app.Run();
