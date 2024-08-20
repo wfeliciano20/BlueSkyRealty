@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using AspNETcore.BSR.Models;
 using AspNETcore.BSR.Services;
+using System.Diagnostics;
 
 namespace AspNETcore.BSR.Controllers;
 
@@ -16,11 +17,15 @@ public class HomesController : Controller
 
     public IActionResult Index(int? minPrice, int? maxPrice, int? minArea, int? maxArea)
     {
+
+        var stopwatch = new Stopwatch(); //added this
+        stopwatch.Start(); //added this
+
         var homesViewModel = new HomesViewModel();
 
         try
         {
-                // Initially, get all homes
+            // Initially, get all homes
             var homes = _homeService.GetHomes();
 
             // Apply the price range filter if values are provided
@@ -43,7 +48,8 @@ public class HomesController : Controller
             }
 
             homesViewModel.Homes = homes;
-            
+            ViewBag.HomesCount = homes.Count; //added this
+
         }
         catch (Exception ex)
         {
@@ -55,6 +61,10 @@ public class HomesController : Controller
         homesViewModel.MaxPrice = maxPrice;
         homesViewModel.MinArea = minArea;
         homesViewModel.MaxArea = maxArea;
+
+        stopwatch.Stop(); //added this
+
+        ViewBag.LoadTestTime = stopwatch.Elapsed.TotalSeconds.ToString("F4"); //added this
 
         return View(homesViewModel);
     }
