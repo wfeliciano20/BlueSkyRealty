@@ -12,6 +12,8 @@ builder.Services.AddRazorPages(options =>
     options.Conventions.ConfigureFilter(new IgnoreAntiforgeryTokenAttribute());
 });
 builder.Services.AddScoped<HomeService>();
+builder.Services.AddScoped<AddressService>();
+builder.Services.AddHttpClient();
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
