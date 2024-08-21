@@ -12,7 +12,7 @@ namespace AspNETcore.BSR.Services;
             _httpClientFactory = httpClientFactory;
         }
 
-        public List<string> GetAmericanStates()
+        public async Task<List<string>> GetAmericanStates()
         {
             var states = new List<string>();
 
@@ -24,7 +24,7 @@ namespace AspNETcore.BSR.Services;
 
             try
             {
-                var response = httpClient.Send(request);
+                var response = await httpClient.Send(request);
                 if (response.IsSuccessStatusCode)
                 {
                     var responseContent = response.Content.ReadAsStringAsync().Result;
@@ -45,7 +45,7 @@ namespace AspNETcore.BSR.Services;
             }
         }
 
-        public List<string> GetCitiesInState(string state)
+        public async Task<List<string>> GetCitiesInState(string state)
         {
             var cities = new List<string>();
 
@@ -57,7 +57,7 @@ namespace AspNETcore.BSR.Services;
 
             try
             {
-                var response = httpClient.Send(request);
+                var response = await httpClient.Send(request);
                 if (response.IsSuccessStatusCode)
                 {
                     var responseContent = response.Content.ReadAsStringAsync().Result;
@@ -76,5 +76,11 @@ namespace AspNETcore.BSR.Services;
                 Console.WriteLine($"Failed to fetch cities.");
                 return cities;
             }
+        }
+        public async Task<List<string>> GetStatesWithDelayAsync(int index)
+        {
+            await Task.Delay(2000);
+
+            return new List<string> { "State 1", "State 2", "State 3" };
         }
     }

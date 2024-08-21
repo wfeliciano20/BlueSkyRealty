@@ -16,26 +16,72 @@ public class HomesController : Controller
         _addressService = addressService;
         _homeService = homeService;
     }
+    // First Demonstration
+    
+    // [HttpGet]
+    // public IActionResult GetStates()
+    // {
+    //     var states = _addressService.GetAmericanStates();
+    //     return Ok(states);
+    // }
 
-    [HttpGet]
-    public IActionResult GetStates()
-    {
-        var states = _addressService.GetAmericanStates();
-        return Ok(states);
-    }
+    // [HttpPost]
+    // public IActionResult GetCities([FromBody]CityRequest request)
+    // {
+    //     var cities = _addressService.GetCitiesInState(request.State);
+    //     return Ok(cities);
+    // }
+
+    // First Demonstration
+
+    //second Demonstration
 
     [HttpPost]
-    public IActionResult GetCities([FromBody]CityRequest request)
+    public async Task<IActionResult> GetCities([FromBody]CityRequest request)
     {
-        var cities = _addressService.GetCitiesInState(request.State);
+        var cities = await _addressService.GetCitiesInState(request.State);
         return Ok(cities);
     }
 
-    public IActionResult Index(int? minPrice, int? maxPrice, int? minArea, int? maxArea)
+    [HttpGet]
+    public async Task<IActionResult> GetStates()
+    {
+        var states = await _addressService.GetAmericanStates();
+        return Ok(states);
+    }
+    // second Demonstration
+
+    public async IActionResult Index(int? minPrice, int? maxPrice, int? minArea, int? maxArea)
     {
 
         var stopwatch = new Stopwatch(); //added this
         stopwatch.Start(); //added this
+
+        // First demonstration
+        // for (int i = 0; i < 10; i++)
+        // {
+        //     Console.WriteLine("Request " + i);
+        //     var list = _addressService.GetStatesWithDelayAsync(i).Result;
+        //     Console.WriteLine("Response " + i);
+        // }
+        // first demonstration
+
+        //second Demonstration
+        var tasks = new List<Task<List<string>>>();
+
+        for (int i = 0; i < 10; i++)
+        {
+            tasks.Add(_addressService.GetStatesWithDelayAsync(i));
+        }
+
+        var results = await Task.WhenAll(tasks);
+
+        for (int i = 0; i < results.Length; i++)
+        {
+            var list = results[i];
+            Console.WriteLine("Response " + i);
+        }
+        // second demonstration
 
         var homesViewModel = new HomesViewModel();
 
