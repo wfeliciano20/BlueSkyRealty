@@ -24,7 +24,7 @@ namespace AspNETcore.BSR.Services;
 
             try
             {
-                var response = await httpClient.Send(request);
+                var response = await httpClient.SendAsync(request);
                 if (response.IsSuccessStatusCode)
                 {
                     var responseContent = response.Content.ReadAsStringAsync().Result;
@@ -57,7 +57,7 @@ namespace AspNETcore.BSR.Services;
 
             try
             {
-                var response = await httpClient.Send(request);
+                var response = await httpClient.SendAsync(request);
                 if (response.IsSuccessStatusCode)
                 {
                     var responseContent = response.Content.ReadAsStringAsync().Result;

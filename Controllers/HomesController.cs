@@ -16,42 +16,30 @@ public class HomesController : Controller
         _addressService = addressService;
         _homeService = homeService;
     }
-    // First Demonstration
-    
-    // [HttpGet]
-    // public IActionResult GetStates()
-    // {
-    //     var states = _addressService.GetAmericanStates();
-    //     return Ok(states);
-    // }
 
-    // [HttpPost]
-    // public IActionResult GetCities([FromBody]CityRequest request)
-    // {
-    //     var cities = _addressService.GetCitiesInState(request.State);
-    //     return Ok(cities);
-    // }
 
-    // First Demonstration
 
-    //second Demonstration
-
-    [HttpPost]
-    public async Task<IActionResult> GetCities([FromBody]CityRequest request)
+    public async Task<IActionResult> GetCities(string state)
     {
-        var cities = await _addressService.GetCitiesInState(request.State);
+        var cities = await _addressService.GetCitiesInState(state);
         return Ok(cities);
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetStates()
+    public async Task<IActionResult>  AddHomeView()
     {
-        var states = await _addressService.GetAmericanStates();
-        return Ok(states);
-    }
-    // second Demonstration
+        var statesResult = await _addressService.GetAmericanStates();
 
-    public async IActionResult Index(int? minPrice, int? maxPrice, int? minArea, int? maxArea)
+        var addHomeViewModel = new AddHomeViewModel
+        {
+            States = statesResult,
+            Cities = new List<string>()
+        };
+
+        return View(addHomeViewModel);
+    }
+
+    public async Task<IActionResult> Index(int? minPrice, int? maxPrice, int? minArea, int? maxArea)
     {
 
         var stopwatch = new Stopwatch(); //added this
@@ -104,11 +92,12 @@ public class HomesController : Controller
             {
                 homes = homes.Where(h => h.Area >= minArea.Value).ToList();
             }
+            
             if (maxArea.HasValue)
             {
                 homes = homes.Where(h => h.Area <= maxArea.Value).ToList();
             }
-
+ 
             homesViewModel.Homes = homes;
             ViewBag.HomesCount = homes.Count; //added this
 
@@ -131,12 +120,6 @@ public class HomesController : Controller
         return View(homesViewModel);
     }
 
-    // Add Home 
-    [HttpGet]
-    public IActionResult AddHomeView()
-    {
-        return View();
-    }
 
     [HttpPost]
     public IActionResult AddHome(Home newHome)
