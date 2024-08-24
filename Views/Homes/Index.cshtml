@@ -21,6 +21,8 @@
     <h2>@ViewBag.HomesCount homes found.</h2>
 
     <h2>List of Homes</h2>
+    
+    <partial name="_Pagination" model="Model" />
 
     @if (Model.Homes != null && Model.Homes.Count > 0)
     {

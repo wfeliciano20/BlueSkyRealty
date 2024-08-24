@@ -39,20 +39,11 @@ public class HomesController : Controller
         return View(addHomeViewModel);
     }
 
-    public async Task<IActionResult> Index(int? minPrice, int? maxPrice, int? minArea, int? maxArea)
+    public async Task<IActionResult> Index(int? minPrice, int? maxPrice, int? minArea, int? maxArea, int pageNumber = 1, int pageSize = 10)
     {
 
         var stopwatch = new Stopwatch(); //added this
         stopwatch.Start(); //added this
-
-        // First demonstration
-        // for (int i = 0; i < 10; i++)
-        // {
-        //     Console.WriteLine("Request " + i);
-        //     var list = _addressService.GetStatesWithDelayAsync(i).Result;
-        //     Console.WriteLine("Response " + i);
-        // }
-        // first demonstration
 
         //second Demonstration
         var tasks = new List<Task<List<string>>>();
@@ -98,8 +89,19 @@ public class HomesController : Controller
                 homes = homes.Where(h => h.Area <= maxArea.Value).ToList();
             }
  
-            homesViewModel.Homes = homes;
-            ViewBag.HomesCount = homes.Count; //added this
+        //new code
+        int totalItems = homes.Count();
+        homes = homes.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+
+        homesViewModel.Homes = homes;
+        homesViewModel.PaginationInfo = new PaginationInfo
+        {
+            CurrentPage = pageNumber,
+            ItemsPerPage = pageSize,
+            TotalItems = totalItems
+        };
+
+        ViewBag.HomesCount = totalItems;
 
         }
         catch (Exception ex)
