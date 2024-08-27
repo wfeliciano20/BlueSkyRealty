@@ -10,11 +10,14 @@ public class HomesController : Controller
 {
     private readonly HomeService _homeService;
     private readonly AddressService _addressService;
+        private readonly ILogger<HomesController> _logger;
 
-    public HomesController(HomeService homeService, AddressService addressService)
+    public HomesController(HomeService homeService, AddressService addressService,ILogger<HomesController> logger)
     {
+        _logger = logger;
         _addressService = addressService;
         _homeService = homeService;
+
     }
 
 
@@ -101,11 +104,19 @@ public class HomesController : Controller
             TotalItems = totalItems
         };
 
+        if (totalItems > 450)
+        {
+            _logger.LogWarning("Database is close to reaching its capacity");
+        }
+            
+        _logger.LogInformation("Homes Loaded Correctly");
+
         ViewBag.HomesCount = totalItems;
 
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, $"Error fetching homes from the database: {ex.Message}");
             TempData["ErrorMessage"] = $"Error fetching home from the database: {ex.Message}";
         }
 
