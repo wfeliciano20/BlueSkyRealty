@@ -2,11 +2,11 @@
     var queryString = $"?minPrice={Model.MinPrice}&maxPrice={Model.MaxPrice}&minArea={Model.MinArea}&maxArea={Model.MaxArea}&pageNumber=";
 }
 
-<div class="pagination">
+<div class="pagination m-2">
     @if (Model.PaginationInfo != null)
     {
         <div class="row w-100">
-            <div class="col-1">
+            <div class="col-2">
                 <h6>
                     Page @Model.PaginationInfo.CurrentPage of @Model.PaginationInfo.TotalPages
                 </h6>
@@ -16,23 +16,20 @@
             {
                 @if (Model.PaginationInfo.HasPreviousPage)
                 {
-                    <div class="col">
-                        <a href="@($"{queryString}1")">First</a>
-                        <a href="@($"{queryString}{Model.PaginationInfo.CurrentPage - 1}")">Previous</a>
+                    <div class="col-2">
+                        <a class="btn btn-outline-dark" href="@($"{queryString}1")">First</a>
+                        <a class="btn btn-outline-dark" href="@($"{queryString}{Model.PaginationInfo.CurrentPage - 1}")">Previous</a>
                     </div>
                 }
                 
                 @if (Model.PaginationInfo.HasNextPage)
                 {
-                    <div class="col-1">
+                    <div class="col-2">
                         <a class="btn btn-outline-dark" href="@($"{queryString}{Model.PaginationInfo.CurrentPage + 1}")">Next</a>
-                    </div>
-
-                    <div class="col-1">
                         <a class="btn btn-outline-dark" href="@($"{queryString}{Model.PaginationInfo.TotalPages}")">Last</a>
                     </div>
                 }
-                <div class="col">
+                <div class="col-2">
                     <form asp-controller="Homes" asp-action="Index" method="get" class="d-inline">
                         <input type="hidden" name="minPrice" value="@Model.MinPrice" />
                         <input type="hidden" name="maxPrice" value="@Model.MaxPrice" />

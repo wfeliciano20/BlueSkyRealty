@@ -10,9 +10,9 @@ public class HomesController : Controller
 {
     private readonly HomeService _homeService;
     private readonly AddressService _addressService;
-        private readonly ILogger<HomesController> _logger;
+    private readonly ILogger<HomesController> _logger;
 
-    public HomesController(HomeService homeService, AddressService addressService,ILogger<HomesController> logger)
+    public HomesController(HomeService homeService, AddressService addressService, ILogger<HomesController> logger)
     {
         _logger = logger;
         _addressService = addressService;
@@ -29,7 +29,7 @@ public class HomesController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult>  AddHomeView()
+    public async Task<IActionResult> AddHomeView()
     {
         var statesResult = await _addressService.GetAmericanStates();
 
@@ -42,76 +42,43 @@ public class HomesController : Controller
         return View(addHomeViewModel);
     }
 
-    public async Task<IActionResult> Index(int? minPrice, int? maxPrice, int? minArea, int? maxArea, int pageNumber = 1, int pageSize = 10)
+    public async Task<IActionResult> Index(int? minPrice, int? maxPrice, int? minArea, int? maxArea, int? minBath, int? minCar, int? minBed, string? state, string? city, int pageNumber = 1, int pageSize = 12)
     {
 
         var stopwatch = new Stopwatch(); //added this
         stopwatch.Start(); //added this
 
-        //second Demonstration
-        var tasks = new List<Task<List<string>>>();
-
-        for (int i = 0; i < 10; i++)
-        {
-            tasks.Add(_addressService.GetStatesWithDelayAsync(i));
-        }
-
-        var results = await Task.WhenAll(tasks);
-
-        for (int i = 0; i < results.Length; i++)
-        {
-            var list = results[i];
-            Console.WriteLine("Response " + i);
-        }
-        // second demonstration
-
         var homesViewModel = new HomesViewModel();
 
         try
         {
-            // Initially, get all homes
-            var homes = _homeService.GetHomes();
 
-            // Apply the price range filter if values are provided
-            if (minPrice.HasValue)
+
+            //modified
+            var homes = _homeService.GetHomes(minPrice, maxPrice, minArea, maxArea, minBath, minCar, minBed, state, city);
+            int totalItems = homes.Count();
+            homes = homes.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+
+            //new
+            homesViewModel.States = await _addressService.GetAmericanStates();
+            homesViewModel.Homes = homes;
+            homesViewModel.PaginationInfo = new PaginationInfo
             {
-                homes = homes.Where(h => h.Price >= minPrice.Value).ToList();
-            }
-            if (maxPrice.HasValue)
+                CurrentPage = pageNumber,
+                ItemsPerPage = pageSize,
+                TotalItems = totalItems
+            };
+
+            ViewBag.HomesCount = totalItems;
+
+            if (totalItems > 450)
             {
-                homes = homes.Where(h => h.Price <= maxPrice.Value).ToList();
+                _logger.LogWarning("Database is close to reaching its capacity");
             }
 
-            if (minArea.HasValue)
-            {
-                homes = homes.Where(h => h.Area >= minArea.Value).ToList();
-            }
-            
-            if (maxArea.HasValue)
-            {
-                homes = homes.Where(h => h.Area <= maxArea.Value).ToList();
-            }
- 
-        //new code
-        int totalItems = homes.Count();
-        homes = homes.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+            _logger.LogInformation("Homes Loaded Correctly");
 
-        homesViewModel.Homes = homes;
-        homesViewModel.PaginationInfo = new PaginationInfo
-        {
-            CurrentPage = pageNumber,
-            ItemsPerPage = pageSize,
-            TotalItems = totalItems
-        };
-
-        if (totalItems > 450)
-        {
-            _logger.LogWarning("Database is close to reaching its capacity");
-        }
-            
-        _logger.LogInformation("Homes Loaded Correctly");
-
-        ViewBag.HomesCount = totalItems;
+            ViewBag.HomesCount = totalItems;
 
         }
         catch (Exception ex)
@@ -125,6 +92,11 @@ public class HomesController : Controller
         homesViewModel.MaxPrice = maxPrice;
         homesViewModel.MinArea = minArea;
         homesViewModel.MaxArea = maxArea;
+        homesViewModel.MinBathrooms = minBath; //new
+        homesViewModel.MinGarage = minCar; //new
+        homesViewModel.MinBedrooms = minBed;//new
+        homesViewModel.State = state;//new
+        homesViewModel.City = city;//new
 
         stopwatch.Stop(); //added this
 

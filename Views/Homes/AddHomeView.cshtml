@@ -10,16 +10,16 @@
 
 <form class="pb-3" asp-action="AddHome" asp-controller="Homes" method="post">
     <div asp-validation-summary="All" class="text-danger"></div>
-    <div class="form-group pb-3 w-25">
+    <div class="form-group pb-3 w-50">
         <label>Price</label>
         <input asp-for="Price" class="form-control" />
     </div>
-    <div class="form-group pb-3 w-100">
+    <div class="form-group pb-3 w-50">
         <label>Street Address</label>
         <input asp-for="StreetAddress" class="form-control"/>
     </div>
 
-    <div class="form-group pb-3 w-25">
+    <div class="form-group pb-3 w-50">
         <label for="statesDropdown">State</label>
         <select asp-for="State" class="form-control" id="statesDropdown">
             <option value="">Select State</option>
@@ -30,7 +30,7 @@
         </select>
     </div>
 
-    <div class="form-group pb-3 w-25">
+    <div class="form-group pb-3 w-50">
         <label for="citiesDropdown">City</label>
         <select asp-for="City" class="form-control" id="citiesDropdown">
             <option value="">Select City</option>
@@ -41,25 +41,25 @@
         </select>
     </div>
 
-    <div class="form-group pb-3 w-25">
+    <div class="form-group pb-3 w-50">
         <label>Square Meters</label>
         <input asp-for="Area" class="form-control" />
     </div>
 
-    <div class="form-group pb-3 w-25">
+    <div class="form-group pb-3 w-50">
         <label>Bedrooms</label>
-        <input asp-for="Bedrooms" class="form-control" type="number" min="1" max="5" />
+        <input asp-for="Bedrooms" class="form-control" type="number" min="1" max="5" value="1" />
     </div>
 
-    <div class="form-group pb-3 w-25">
+    <div class="form-group pb-3 w-50">
         <label>Bathrooms</label>
-        <input asp-for="Bathrooms" class="form-control" type="number" min="1" max="5" />
+        <input asp-for="Bathrooms" class="form-control" type="number" min="1" max="5" value="1" />
     </div>
 
-    <div class="form-group pb-3 w-25">
+    <div class="form-group pb-3 w-50">
         <label>Garage Spots</label>
-        <input asp-for="GarageSpots" class="form-control" type="number" min="1" max="5" />
+        <input asp-for="GarageSpots" class="form-control" type="number" min="1" max="5" value="1" />
     </div>
 
-    <input type="submit" class="btn btn-success" value="Add Home" />
+    <input type="submit" class="btn btn-success w-50" value="Add Home" />
 </form>
