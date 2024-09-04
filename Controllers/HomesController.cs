@@ -52,8 +52,6 @@ public class HomesController : Controller
 
         try
         {
-
-
             //modified
             var homes = _homeService.GetHomes(minPrice, maxPrice, minArea, maxArea, minBath, minCar, minBed, state, city);
             int totalItems = homes.Count();

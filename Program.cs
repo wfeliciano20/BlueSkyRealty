@@ -31,6 +31,7 @@ builder.Services.AddScoped<AddressService>();
 builder.Services.AddScoped<DataSeedService>();
 builder.Services.AddHttpClient();
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages(); // new Code
 
 var app = builder.Build();
 
@@ -46,8 +47,15 @@ using (var scope = app.Services.CreateScope())
 
 app.UseStaticFiles();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Homes}/{action=Index}/{id?}");
+// new code
+app.UseRouting(); 
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapRazorPages();
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Homes}/{action=Index}/{id?}");
+});
 
 app.Run();
