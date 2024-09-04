@@ -1,18 +1,47 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
+using AspNETcore.BSR.Models;
 
 namespace AspNETcore.BSR.Pages
 {
     public class LoginModel : PageModel
     {
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public void OnGet()
+        public LoginModel(SignInManager<ApplicationUser> signInManager)
         {
+            _signInManager = signInManager;
         }
+
+        [BindProperty]
+        public LoginInputModel Input { get; set; }
+
+        public async Task<IActionResult> OnPostAsync()
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, isPersistent: false, lockoutOnFailure: false);
+
+                if (result.Succeeded)
+                {
+                    return LocalRedirect("~/");
+                }
+            }
+
+            return Page();
+        }
+    }
+
+    public class LoginInputModel
+    {
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; }
+
+        [Required]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 using AspNETcore.BSR.Services;
 using AspNETcore.BSR.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 
@@ -26,6 +27,23 @@ builder.Services.AddRazorPages(options =>
     //new code
     options.Conventions.ConfigureFilter(new IgnoreAntiforgeryTokenAttribute());
 });
+
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+{
+    options.Password.RequireDigit = false;
+    options.Password.RequiredLength = 5;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.SignIn.RequireConfirmedEmail = false;
+})
+    .AddEntityFrameworkStores<HomeContext>()
+    .AddDefaultTokenProviders();
+
+
+
+
+
 builder.Services.AddScoped<HomeService>();
 builder.Services.AddScoped<AddressService>();
 builder.Services.AddScoped<DataSeedService>();
@@ -38,17 +56,24 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<HomeContext>();
-    dbContext.Database.EnsureDeleted();
+    //dbContext.Database.EnsureDeleted();
     dbContext.Database.EnsureCreated();
 
     var dataSeedService = scope.ServiceProvider.GetRequiredService<DataSeedService>();
     dataSeedService.SeedHomes();
 }
 
+
 app.UseStaticFiles();
 
+
+
 // new code
-app.UseRouting(); 
+app.UseRouting();
+
+
+app.UseAuthentication();
+
 
 app.UseEndpoints(endpoints =>
 {
