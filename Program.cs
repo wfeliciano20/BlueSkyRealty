@@ -40,6 +40,13 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
     .AddEntityFrameworkStores<HomeContext>()
     .AddDefaultTokenProviders();
 
+// new code 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Login";
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    options.Cookie.HttpOnly = true;
+});
 
 
 
@@ -52,6 +59,8 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages(); // new Code
 
 var app = builder.Build();
+
+app.UseHttpsRedirection(); // new code
 
 using (var scope = app.Services.CreateScope())
 {
@@ -73,6 +82,7 @@ app.UseRouting();
 
 
 app.UseAuthentication();
+app.UseAuthorization(); // new code
 
 
 app.UseEndpoints(endpoints =>

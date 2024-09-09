@@ -1,11 +1,13 @@
-
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using AspNETcore.BSR.Models;
 using AspNETcore.BSR.Services;
 using System.Diagnostics;
 
+
 namespace AspNETcore.BSR.Controllers;
 
+[Authorize]
 public class HomesController : Controller
 {
     private readonly HomeService _homeService;
@@ -42,6 +44,7 @@ public class HomesController : Controller
         return View(addHomeViewModel);
     }
 
+    [AllowAnonymous]
     public async Task<IActionResult> Index(int? minPrice, int? maxPrice, int? minArea, int? maxArea, int? minBath, int? minCar, int? minBed, string? state, string? city, int pageNumber = 1, int pageSize = 12)
     {
 
