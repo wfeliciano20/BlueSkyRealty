@@ -54,7 +54,7 @@ builder.Services.ConfigureApplicationCookie(options =>
 builder.Services.AddScoped<HomeService>();
 builder.Services.AddScoped<AddressService>();
 builder.Services.AddScoped<DataSeedService>();
-builder.Services.AddScoped<UserService>(); 
+builder.Services.AddScoped<UserService>();
 builder.Services.AddHttpClient();
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages(); // new Code

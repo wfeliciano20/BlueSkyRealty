@@ -11,8 +11,8 @@ namespace AspNETcore.BSR.Models
 
         [Required(ErrorMessage = "The Address field is required.")]
         public string StreetAddress { get; set; }
-        public string City { get; set; }
-        public string State { get; set; }   
+        public string City { get; set; } = string.Empty;
+        public string State { get; set; } = string.Empty;
         public int Bedrooms { get; set; }
         public int Bathrooms { get; set; }
         public int GarageSpots { get; set; }
@@ -26,9 +26,9 @@ namespace AspNETcore.BSR.Models
         public int Area { get; set; }
 
         [ValidateNever]
-        public string ImageUrl { get; set; }
-        public List<string> States { get; set; }
-        public List<string> Cities { get; set; }
+        public string ImageUrl { get; set; } = string.Empty;
+        public List<string> States { get; set; } = new List<string>();
+        public List<string> Cities { get; set; } = new List<string>();
 
     }
 }

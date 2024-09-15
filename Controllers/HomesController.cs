@@ -7,7 +7,7 @@ using System.Diagnostics;
 
 namespace AspNETcore.BSR.Controllers;
 
-[Authorize]
+[Authorize(Roles = "Admin, Sales")]
 public class HomesController : Controller
 {
     private readonly HomeService _homeService;
@@ -108,22 +108,25 @@ public class HomesController : Controller
 
 
     [HttpPost]
-    public IActionResult AddHome(Home newHome)
+    public IActionResult AddHome(AddHomeViewModel newHome)
     {
         if (!ModelState.IsValid)
         {
+            Console.WriteLine("New Home Invalid", newHome);
             return View("AddHomeView", newHome);
         }
 
         try
         {
-            _homeService.AddHome(newHome);
+            Home home = (Home)newHome;
+            _homeService.AddHome(home);
             TempData["SuccessMessage"] = "Home added successfully!";
             return RedirectToAction("Index", "Homes");
         }
         catch (Exception ex)
         {
             TempData["ErrorMessage"] = $"Error adding home: {ex.Message}";
+            Console.WriteLine("New Home Exception", newHome);
             return View("AddHomeView", newHome);
         }
     }
@@ -142,11 +145,13 @@ public class HomesController : Controller
     {
         if (!ModelState.IsValid)
         {
+            Console.WriteLine("UPDATE: " + updatedHome);
             return View("HomeDetailView", updatedHome);
         }
 
         try
         {
+            Console.WriteLine("UPDATE:Success " + updatedHome);
             _homeService.UpdateHome(updatedHome);
             TempData["SuccessMessage"] = "Home updated successfully!";
             return RedirectToAction("Index", "Homes");

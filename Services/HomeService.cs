@@ -84,6 +84,9 @@ public class HomeService
         home.Price = updatedHome.Price;
         home.StreetAddress = updatedHome.StreetAddress;
         home.Area = updatedHome.Area;
+        home.GarageSpots = updatedHome.GarageSpots;
+        home.Bathrooms = updatedHome.Bathrooms;
+        home.Bedrooms = updatedHome.Bedrooms;
 
         _context.Homes.Update(home);
         _context.SaveChanges();

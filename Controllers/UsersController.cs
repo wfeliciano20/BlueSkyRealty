@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace AspNETcore.BSR.Controllers;
-[Authorize]
+[Authorize(Roles = "Admin")]
 public class UsersController : Controller
 {
     private readonly ILogger<HomesController> _logger;
