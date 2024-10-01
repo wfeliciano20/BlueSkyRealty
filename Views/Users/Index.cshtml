@@ -11,13 +11,15 @@
                 <thead>
                     <tr>
                         <th scope="col">Email</th>
+                        <th scope="col">Role</th> 
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var user in Model.Users)
                     {
                         <tr>
-                            <th scope="row">@user.Email</th>
+                            <td scope="row">@user.Email</td>
+                            <td>@user.Role</td> 
                         </tr>
                     }
                 </tbody>

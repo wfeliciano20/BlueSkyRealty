@@ -10,7 +10,7 @@ public class HomeContext : IdentityDbContext<ApplicationUser>
 
     public DbSet<Home> Homes { get; set; }
 
-    public DbSet<ApplicationUser> AspNetUsers { get; set; }
+    // public DbSet<ApplicationUser> AspNetUsers { get; set; }
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
