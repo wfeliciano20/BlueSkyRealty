@@ -12,4 +12,5 @@ namespace AspNETcore.BSR.Models;
     public string Id { get; set; }
     public string Email { get; set; }
     public string Role { get; set; }
+    public DateOnly RegistrationDate { get; set; }
 }

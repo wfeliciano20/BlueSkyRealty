@@ -25,7 +25,11 @@ namespace AspNETcore.BSR.Pages
         {
             if (ModelState.IsValid)
             {
-                var identity = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
+                var identity = new ApplicationUser { 
+                    UserName = Input.Email,
+                    Email = Input.Email,
+                    RegistrationDate = DateOnly.FromDateTime(DateTime.Now)
+                };
                 var result = await _userManager.CreateAsync(identity, Input.Password);
 
                 if (result.Succeeded)

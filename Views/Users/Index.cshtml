@@ -1,7 +1,14 @@
-@using AspNETcore.BSR.Models
+  @using AspNETcore.BSR.Models
+@using System.Security.Claims
 @model UsersViewModel
 
+@{
+    var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+}
+
 <div class="pt-5">
+    <partial name="_AlertMessages" />
+
     <h2>@ViewBag.UsersCount users found.</h2>
 
     @if (Model.Users != null && Model.Users.Count > 0)
@@ -17,10 +24,14 @@
                 <tbody>
                     @foreach (var user in Model.Users)
                     {
-                        <tr>
-                            <td scope="row">@user.Email</td>
-                            <td>@user.Role</td> 
-                        </tr>
+                        if (user.Id != currentUserId)
+                        {
+                            <tr>
+                                <th scope="row">@user.Email</th>
+                                <td>@user.Role</td>
+                                <td><a asp-controller="/Users" asp-action="UserDetailView" asp-route-id="@user.Id" class="btn btn-dark">View Details</a></td>
+                            </tr>
+                        }
                     }
                 </tbody>
             </table>
